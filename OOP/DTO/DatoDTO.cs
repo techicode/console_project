@@ -133,6 +133,20 @@ public class DatoDTO
         return new DatoDTO();
     }
 
+    public static bool ActualizarDato(DatoDTO nuevoDato)
+    {
+        try
+        {
+            var indice = ObtenerIndice(nuevoDato.Id);
+            datos[indice] = nuevoDato;
+            return true;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
     public static bool Eliminar(int id)
     {
         int idEncontrado = ObtenerIndice(id);

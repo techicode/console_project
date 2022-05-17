@@ -28,7 +28,7 @@ static bool Menu()
     Console.Title = "Ejercicio de menú";
     Console.WriteLine("1. Listar Datos");
     Console.WriteLine("2. Agregar Datos");
-    Console.WriteLine("3. Eliminar Datos");
+    Console.WriteLine("3. Actualizar Datos");
     Console.WriteLine("4. Salir");
     Console.Write("Ingrese una opción: ");
     int numero;
@@ -51,7 +51,7 @@ static bool Menu()
             OpcionInsertar();
             break;
         case 3:
-            OpcionBorrar();
+            OpcionActualizar();
             break;
         case 4:
             Console.WriteLine("Presionó salir");
@@ -101,9 +101,82 @@ static void OpcionListar()
     }
 }
 
+static void OpcionActualizar()
+{
+    try
+    {
+        Console.WriteLine("Ingrese la ID a actualizar");
+        int id = int.Parse(Console.ReadLine().Trim());
+
+        DatoDAL datoDal = new DatoDAL();
+        
+        DatoDTO resultado = datoDal.BuscarPorId(id);
+        if (resultado == null)
+        {
+            Console.WriteLine("No se encontró el dato");
+            return;
+        }
+        
+        Console.WriteLine("Desea actualizar la temperatura? (Y/N)");
+        string opcionTemp = Console.ReadLine().Trim();
+        if (opcionTemp.ToUpper() == "Y")
+        {
+            Console.WriteLine($"Ingrese la nueva temperatura (actual {resultado.Temperatura})");
+            float temperatura = float.Parse(Console.ReadLine().Trim());
+            resultado.Temperatura = temperatura;
+        }
+        
+        Console.WriteLine("Desea actualizar el nivel? (Y/N)");
+        string opctioNivel = Console.ReadLine().Trim();
+        if (opctioNivel.ToUpper() == "Y")
+        {
+            Console.WriteLine($"Ingrese el nuevo nivel (actual {resultado.Nivel})");
+            float nivel = float.Parse(Console.ReadLine().Trim());
+            resultado.Nivel = nivel;
+        }
+        
+        Console.WriteLine("Desea actualizar el voltaje? (Y/N)");
+        string opcionVolt = Console.ReadLine().Trim();
+        if (opcionVolt.ToUpper() == "Y")
+        {
+            Console.WriteLine($"Ingrese la nueva temperatura (actual {resultado.Temperatura})");
+            float voltaje = float.Parse(Console.ReadLine().Trim());
+            resultado.Voltaje = voltaje;
+        }
+        
+        Console.WriteLine("Desea actualizar el flujo? (Y/N)");
+        string opcionFlujo = Console.ReadLine().Trim();
+        if (opcionFlujo.ToUpper() == "Y")
+        {
+            Console.WriteLine($"Ingrese la nueva temperatura (actual {resultado.Temperatura})");
+            float flujo = float.Parse(Console.ReadLine().Trim());
+            resultado.Flujo = flujo;
+        }
+
+        if (DatoDTO.ActualizarDato(resultado) == true)
+        {
+            Console.WriteLine($"Se ha actualizado con los datos ingresados");
+            Console.WriteLine($"ID: {resultado.Id}, Flujo: {resultado.Flujo} Nivel: {resultado.Nivel} Temp: {resultado.Temperatura} Volt: {resultado.Voltaje}");
+            return;
+        }
+        else
+        {
+            Console.WriteLine("Hubo un error actualizando");
+            return;
+        }
+        
+    }
+    catch (Exception e)
+    {
+        Console.WriteLine("Solo se permiten números para el ID");
+        return;
+    }
+    
+    
+}
+
 static void OpcionBorrar()
 {
     Console.Write("Ingrese ID de dato a borrar: ");
     int id = int.Parse(Console.ReadLine().Trim());
-    
 }
